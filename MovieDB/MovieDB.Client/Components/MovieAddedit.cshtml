@@ -1,4 +1,5 @@
 ﻿@using MovieDB.Shared
+@using  Microsoft.AspNetCore.Components.Forms;
 <div class="modal modal-mask" style="display: block">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -7,34 +8,34 @@
                     @(IsNewMovie ? "Add" : "Edit") Movie
                 </h3>
             </div>
-            <div class="modal-body">
-                @if (ShowMovieFormAlert)
-                {
-                    <div class="alert alert-danger" v-show="showError">
-                        Please fill out all form fields.
+            <EditForm Model="@movie" OnValidSubmit=@OnSaveEvent>
+                <DataAnnotationsValidator />
+                <div class="modal-body">
+                    <div class="alert alert-danger"><ValidationSummary /></div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <InputText bind-value=@movie.Title class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Year</label>
+                            <InputNumber bind-value=@movie.Year class="form-control" T="int" />
+                        </div>
+                        <div class="form-group">
+                            <label>Director</label>
+                            <InputText bind-value=@movie.Director class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <InputTextarea bind-value=@movie.Description class="form-control" />
+                        </div>
                     </div>
-                }
-                <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" class="form-control" bind=@movie.Title />
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=@OnCancelEvent>Cancel</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Year</label>
-                    <input type="text" class="form-control" bind=@movie.Year />
-                </div>
-                <div class="form-group">
-                    <label>Director</label>
-                    <input type="text" class="form-control" bind=@movie.Director />
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea class="form-control" rows="3" bind=@movie.Description></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick=@SaveMovie>Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=@Cancel>Cancel</button>
-            </div>
+            </EditForm>
         </div>
     </div>
 </div>
@@ -42,20 +43,9 @@
     [Parameter]
     private Movie movie { get; set; }
     [Parameter]
-    private bool ShowMovieFormAlert { get; set; }
-    [Parameter]
     private bool IsNewMovie { get; set; }
     [Parameter]
-    public Action OnSaveEvent { get; set; }
+    protected EventCallback<EditContext> OnSaveEvent { get; set; }
     [Parameter]
-    public Action OnCancelEvent { get; set; }
-    private void SaveMovie()
-    {
-        OnSaveEvent?.Invoke();
-    }
-    private void Cancel()
-    {
-        OnCancelEvent?.Invoke();
-    }
-
+    protected EventCallback OnCancelEvent { get; set; }
 }

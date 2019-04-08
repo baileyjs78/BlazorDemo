@@ -13,10 +13,10 @@ Movie List using Components and Server API
         </div>
     </div>
     <div class="row">
-        <MovieDisplay movies="@movies" OnEditEvent="@EditMovie" OnDeleteEvent="@(async (m) => await DeleteMovie(m))" />
+        <MovieDisplay movies="@movies" OnEditEvent="@EditMovie" OnDeleteEvent="@DeleteMovie" />
         @if (ShowMovieForm)
         {
-            <MovieAddedit movie="@movieForm" ShowMovieFormAlert="@ShowMovieFormAlert" IsNewMovie="@IsNewMovie" OnSaveEvent="@(async () => await SaveMovie())" OnCancelEvent="@HideMovieModal" />
+            <MovieAddedit movie="@movieForm" IsNewMovie="@IsNewMovie" OnSaveEvent="@SaveMovie" OnCancelEvent="@HideMovieModal" />
         }
     </div>
 </div>
@@ -46,19 +46,18 @@ Movie List using Components and Server API
         await Http.DeleteAsync("/api/Movies/" + movie.Id);
     }
 
-    void AddMovie()
+    async Task AddMovie()
     {
         movieForm = new Movie();
         IsNewMovie = true;
         ShowMovieModal();
     }
-    void EditMovie(Guid movieId)
+    async Task EditMovie(Guid movieId)
     {
         var mymovie = movies.FirstOrDefault(x => x.Id == movieId);
         movieForm = new Movie { Id = mymovie.Id, Title = mymovie.Title, Year = mymovie.Year, Director = mymovie.Director, Description = mymovie.Description };
         IsNewMovie = false;
         ShowMovieModal();
-        StateHasChanged();
     }
     async Task DeleteMovie(Movie movie)
     {
@@ -68,39 +67,19 @@ Movie List using Components and Server API
 
     async Task SaveMovie()
     {
-        if (!ValidateMovie(movieForm))
+        if (IsNewMovie)
         {
-            ShowMovieFormAlert = true;
-            StateHasChanged();
+            movies.Add(movieForm);
+            await AddMovieAPI(movieForm);
         }
         else
         {
-            if (IsNewMovie)
-            {
-                movies.Add(movieForm);
-                await AddMovieAPI(movieForm);
-            }
-            else
-            {
-                var movieIndex = movies.FindIndex(x => x.Id == movieForm.Id);
-                movies.RemoveAt(movieIndex);
-                movies.Insert(movieIndex, movieForm);
-                await UpdateMovieAPI(movieForm);
-            }
-            HideMovieModal();
+            var movieIndex = movies.FindIndex(x => x.Id == movieForm.Id);
+            movies.RemoveAt(movieIndex);
+            movies.Insert(movieIndex, movieForm);
+            await UpdateMovieAPI(movieForm);
         }
-    }
-    bool ValidateMovie(Movie movie)
-    {
-        if (string.IsNullOrWhiteSpace(movie.Title))
-            return false;
-        if (string.IsNullOrWhiteSpace(movie.Description))
-            return false;
-        if (string.IsNullOrWhiteSpace(movie.Director))
-            return false;
-        if (movie.Year > 2020 || movie.Year < 1920)
-            return false;
-        return true;
+        HideMovieModal();
     }
 
     void ShowMovieModal()
@@ -109,9 +88,8 @@ Movie List using Components and Server API
         ShowMovieForm = true;
 
     }
-    void HideMovieModal()
+    async Task HideMovieModal()
     {
         ShowMovieForm = false;
-        StateHasChanged();
     }
 }

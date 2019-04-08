@@ -9,8 +9,8 @@
                 <p class="card-text">
                     @movie.Description
                 </p>
-                <button class="btn btn-primary" onclick=@(() => EditMovie(movie.Id))>Edit</button>
-                <button class="btn btn-secondary" onclick=@(() => DeleteMovie(movie))>Delete</button>
+                <button class="btn btn-primary" onclick=@(() => OnEditEvent.InvokeAsync(movie.Id))>Edit</button>
+                <button class="btn btn-secondary" onclick=@(() => OnDeleteEvent.InvokeAsync(movie))>Delete</button>
             </div>
         </div>
     </div>
@@ -19,15 +19,7 @@
     [Parameter]
     private List<Movie> movies { get; set; }
     [Parameter]
-    public Action<Guid> OnEditEvent { get; set; }
+    protected EventCallback<Guid> OnEditEvent { get; set; }
     [Parameter]
-    public Action<Movie> OnDeleteEvent { get; set; }
-    private void EditMovie(Guid movieId)
-    {
-        OnEditEvent?.Invoke(movieId);
-    }
-    private void DeleteMovie(Movie movie)
-    {
-        OnDeleteEvent?.Invoke(movie);
-    }
+    protected EventCallback<Movie> OnDeleteEvent { get; set; }
 }
