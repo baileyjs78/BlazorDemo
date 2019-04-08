@@ -1,0 +1,61 @@
+﻿@using MovieDB.Shared
+<div class="modal modal-mask" style="display: block">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    @(IsNewMovie ? "Add" : "Edit") Movie
+                </h3>
+            </div>
+            <div class="modal-body">
+                @if (ShowMovieFormAlert)
+                {
+                    <div class="alert alert-danger" v-show="showError">
+                        Please fill out all form fields.
+                    </div>
+                }
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="form-control" bind=@movie.Title />
+                </div>
+                <div class="form-group">
+                    <label>Year</label>
+                    <input type="text" class="form-control" bind=@movie.Year />
+                </div>
+                <div class="form-group">
+                    <label>Director</label>
+                    <input type="text" class="form-control" bind=@movie.Director />
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" rows="3" bind=@movie.Description></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick=@SaveMovie>Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=@Cancel>Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@functions {
+    [Parameter]
+    private Movie movie { get; set; }
+    [Parameter]
+    private bool ShowMovieFormAlert { get; set; }
+    [Parameter]
+    private bool IsNewMovie { get; set; }
+    [Parameter]
+    public Action OnSaveEvent { get; set; }
+    [Parameter]
+    public Action OnCancelEvent { get; set; }
+    private void SaveMovie()
+    {
+        OnSaveEvent?.Invoke();
+    }
+    private void Cancel()
+    {
+        OnCancelEvent?.Invoke();
+    }
+
+}
