@@ -1,0 +1,133 @@
+﻿@page "/moviedb"
+@using System.ComponentModel.DataAnnotations
+<h1>Movie DB</h1>
+
+
+Movie List
+<button class="btn btn-primary" onclick=@AddMovie>Add</button>
+
+@foreach (var movie in movies)
+{
+    <div class="col-sm-4">
+        <div class="card mt-3">
+            <div class="card-body">
+                <h4 class="card-title">@movie.Title</h4>
+                <h6 class="card-subtitle mb-2 text-muted">@movie.Year - @movie.Director</h6>
+                <p class="card-text">
+                    @movie.Description
+                </p>
+                <button class="btn btn-primary" onclick=@(() => EditMovie(movie.Id))>Edit</button>
+                <button class="btn btn-secondary" onclick=@(() => DeleteMovie(movie))>Delete</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (ShowMovieForm)
+    {
+        <div class="modal modal-mask" style="display: block">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">
+                            @(IsNewMovie ? "Add" : "Edit") Movie
+                        </h3>
+                    </div>
+                    <EditForm Model="@movieForm" OnValidSubmit=@SaveMovie>
+                        <DataAnnotationsValidator />
+                        <div class="modal-body">
+                            <div class="alert alert-danger"><ValidationSummary /></div>
+                            <div class="form-group">
+                                <label>Title</label>
+                                <InputText bind=@movieForm.Title class="form-control" />
+                                @*<ValidationMessage For="@(() => movieForm.Title)"></ValidationMessage>*@
+                            </div>
+                            <div class="form-group">
+                                <label>Year</label>
+                                <InputNumber bind=@movieForm.Year class="form-control" T="int"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Director</label>
+                                <InputText bind=@movieForm.Director class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <InputTextarea bind=@movieForm.Description class="form-control" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=@HideMovieModal>Cancel</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    }
+
+@functions {
+
+    List<Movie> movies = new List<Movie>();
+    private bool ShowMovieForm { get; set; } = false;
+    private bool IsNewMovie { get; set; } = false;
+    private Movie movieForm { get; set; } = new Movie();
+
+    public class Movie
+    {
+        public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "Enter a Title"), StringLength(100, ErrorMessage = "That name is too long")]
+        public string Title { get; set; }
+
+        [Required, Range(1920, 2020, ErrorMessage = "Year must be from 1920 to 2020")]
+        public int Year { get; set; }
+
+        [Required]
+        public string Director { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+        public Movie()
+        {
+            Id = Guid.NewGuid();
+        }
+    }
+
+
+    void AddMovie() {
+        movieForm = new Movie();
+        IsNewMovie = true;
+        ShowMovieModal();
+    }
+    void EditMovie(Guid movieId) {
+        var mymovie = movies.FirstOrDefault(x => x.Id == movieId);
+        movieForm = new Movie { Id = mymovie.Id, Title = mymovie.Title, Year = mymovie.Year, Director = mymovie.Director, Description = mymovie.Description };
+        IsNewMovie = false;
+        ShowMovieModal();
+    }
+    void DeleteMovie(Movie movie) {
+        movies.Remove(movie);
+    }
+
+    void SaveMovie()
+    {
+        if(IsNewMovie) {
+            movies.Add(movieForm);
+        } else
+        {
+            var movieIndex = movies.FindIndex(x => x.Id == movieForm.Id);
+            movies.RemoveAt(movieIndex);
+            movies.Insert(movieIndex, movieForm);
+        }
+        HideMovieModal();
+    }
+
+    void ShowMovieModal() {
+        ShowMovieForm = true;
+
+    }
+    void HideMovieModal() {
+        ShowMovieForm = false;
+    }
+}
