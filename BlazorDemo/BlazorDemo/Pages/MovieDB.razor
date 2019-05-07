@@ -1,5 +1,6 @@
 ﻿@page "/moviedb"
 @using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms;
 <h1>Movie DB</h1>
 
 
@@ -25,46 +26,46 @@ Movie List
 
 
 @if (ShowMovieForm)
-    {
-        <div class="modal modal-mask" style="display: block">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title">
-                            @(IsNewMovie ? "Add" : "Edit") Movie
-                        </h3>
-                    </div>
-                    <EditForm Model="@movieForm" OnValidSubmit=@SaveMovie>
-                        <DataAnnotationsValidator />
-                        <div class="modal-body">
-                            <div class="alert alert-danger"><ValidationSummary /></div>
-                            <div class="form-group">
-                                <label>Title</label>
-                                <InputText bind=@movieForm.Title class="form-control" />
-                                @*<ValidationMessage For="@(() => movieForm.Title)"></ValidationMessage>*@
-                            </div>
-                            <div class="form-group">
-                                <label>Year</label>
-                                <InputNumber bind=@movieForm.Year class="form-control" T="int"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Director</label>
-                                <InputText bind=@movieForm.Director class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <InputTextarea bind=@movieForm.Description class="form-control" />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=@HideMovieModal>Cancel</button>
-                        </div>
-                    </EditForm>
+{
+    <div class="modal modal-mask" style="display: block">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        @(IsNewMovie ? "Add" : "Edit") Movie
+                    </h3>
                 </div>
+                <EditForm Model="@movieForm" OnValidSubmit=@SaveMovie>
+                    <DataAnnotationsValidator />
+                    <div class="modal-body">
+                        <div class="alert alert-danger"><ValidationSummary /></div>
+                        <div class="form-group">
+                            <label>Title</label>
+                            <InputText bind-value=@movieForm.Title class="form-control" />
+                            @*<ValidationMessage For="@(() => movieForm.Title)"></ValidationMessage>*@
+                        </div>
+                        <div class="form-group">
+                            <label>Year</label>
+                            <InputNumber bind-value=@movieForm.Year class="form-control" T="int" />
+                        </div>
+                        <div class="form-group">
+                            <label>Director</label>
+                            <InputText bind-value=@movieForm.Director class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <InputTextArea bind-value=@movieForm.Description class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=@HideMovieModal>Cancel</button>
+                    </div>
+                </EditForm>
             </div>
         </div>
-    }
+    </div>
+}
 
 @functions {
 
@@ -95,26 +96,31 @@ Movie List
     }
 
 
-    void AddMovie() {
+    void AddMovie()
+    {
         movieForm = new Movie();
         IsNewMovie = true;
         ShowMovieModal();
     }
-    void EditMovie(Guid movieId) {
+    void EditMovie(Guid movieId)
+    {
         var mymovie = movies.FirstOrDefault(x => x.Id == movieId);
         movieForm = new Movie { Id = mymovie.Id, Title = mymovie.Title, Year = mymovie.Year, Director = mymovie.Director, Description = mymovie.Description };
         IsNewMovie = false;
         ShowMovieModal();
     }
-    void DeleteMovie(Movie movie) {
+    void DeleteMovie(Movie movie)
+    {
         movies.Remove(movie);
     }
 
     void SaveMovie()
     {
-        if(IsNewMovie) {
+        if (IsNewMovie)
+        {
             movies.Add(movieForm);
-        } else
+        }
+        else
         {
             var movieIndex = movies.FindIndex(x => x.Id == movieForm.Id);
             movies.RemoveAt(movieIndex);
@@ -123,11 +129,13 @@ Movie List
         HideMovieModal();
     }
 
-    void ShowMovieModal() {
+    void ShowMovieModal()
+    {
         ShowMovieForm = true;
 
     }
-    void HideMovieModal() {
+    void HideMovieModal()
+    {
         ShowMovieForm = false;
     }
 }
