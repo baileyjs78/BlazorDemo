@@ -1,0 +1,72 @@
+﻿@page "/moviedb"
+@using ServerSide.Components
+<h1>Movie DB2</h1>
+
+
+Movie List using Components
+<div>
+    <div class="row">
+        <div class="col mt-3">
+            <button class="btn btn-primary" onclick=@AddMovie>Add Movie</button>
+        </div>
+    </div>
+    <div class="row">
+        <MovieDisplay movies="@movies" OnEditEvent=@EditMovie OnDeleteEvent=@DeleteMovie />
+        @if (ShowMovieForm)
+        {
+            <MovieAddedit movie="@movieForm" IsNewMovie="@IsNewMovie" OnSaveEvent=@SaveMovie OnCancelEvent="@HideMovieModal" />
+        }
+    </div>
+</div>
+
+@functions {
+
+    List<Movie> movies = new List<Movie>();
+    private bool ShowMovieForm { get; set; } = false;
+    private bool IsNewMovie { get; set; } = false;
+    private Movie movieForm { get; set; } = new Movie();
+
+
+    async Task AddMovie()
+    {
+        movieForm = new Movie();
+        IsNewMovie = true;
+        ShowMovieModal();
+    }
+    async Task EditMovie(Guid movieId)
+    {
+        var mymovie = movies.FirstOrDefault(x => x.Id == movieId);
+        movieForm = new Movie { Id = mymovie.Id, Title = mymovie.Title, Year = mymovie.Year, Director = mymovie.Director, Description = mymovie.Description };
+        IsNewMovie = false;
+        ShowMovieModal();
+    }
+    async Task DeleteMovie(Movie movie)
+    {
+        movies.Remove(movie);
+    }
+
+    async Task SaveMovie()
+    {
+        if (IsNewMovie)
+        {
+            movies.Add(movieForm);
+        }
+        else
+        {
+            var movieIndex = movies.FindIndex(x => x.Id == movieForm.Id);
+            movies.RemoveAt(movieIndex);
+            movies.Insert(movieIndex, movieForm);
+        }
+        HideMovieModal();
+    }
+
+    void ShowMovieModal()
+    {
+        ShowMovieForm = true;
+
+    }
+    async Task HideMovieModal()
+    {
+        ShowMovieForm = false;
+    }
+}

@@ -1,0 +1,27 @@
+﻿@using ServerSide.Pages;
+@foreach (var movie in movies)
+{
+    <div class="col-sm-4">
+        <div class="card mt-3">
+            <div class="card-body">
+                <h4 class="card-title">@movie.Title</h4>
+                <h6 class="card-subtitle mb-2 text-muted">@movie.Year - @movie.Director</h6>
+                <p class="card-text">
+                    @movie.Description
+                </p>
+                <button class="btn btn-primary" onclick=@(() => OnEditEvent.InvokeAsync(movie.Id))>Edit</button>
+                <button class="btn btn-secondary" onclick=@(() => OnDeleteEvent.InvokeAsync(movie))>Delete</button>
+
+            </div>
+        </div>
+    </div>
+}
+@functions {
+    [Parameter]
+    private List<Movie> movies { get; set; }
+    [Parameter]
+    protected EventCallback<Guid> OnEditEvent { get; set; }
+    [Parameter]
+    protected EventCallback<Movie> OnDeleteEvent { get; set; }
+}
+
