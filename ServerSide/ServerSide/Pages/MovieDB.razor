@@ -1,5 +1,7 @@
 ﻿@page "/moviedb"
 @using ServerSide.Components
+@using ServerSide.Data
+@inject MovieService MovieService
 <h1>Movie DB2</h1>
 
 
@@ -27,6 +29,11 @@ Movie List using Components
     private Movie movieForm { get; set; } = new Movie();
 
 
+    protected override async Task OnInitAsync()
+    {
+        movies = await MovieService.GetMovies();
+    }
+
     async Task AddMovie()
     {
         movieForm = new Movie();
@@ -43,6 +50,7 @@ Movie List using Components
     async Task DeleteMovie(Movie movie)
     {
         movies.Remove(movie);
+        await MovieService.DeleteMovie(movie.Id);
     }
 
     async Task SaveMovie()
@@ -50,12 +58,14 @@ Movie List using Components
         if (IsNewMovie)
         {
             movies.Add(movieForm);
+            await MovieService.CreateMovie(movieForm);
         }
         else
         {
             var movieIndex = movies.FindIndex(x => x.Id == movieForm.Id);
             movies.RemoveAt(movieIndex);
             movies.Insert(movieIndex, movieForm);
+            await MovieService.UpdateMovie(movieForm);
         }
         HideMovieModal();
     }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ServerSide.Data;
+using NoDb;
 
 namespace ServerSide
 {
@@ -19,7 +20,9 @@ namespace ServerSide
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddNoDb<Movie>();
+            services.AddMemoryCache();
+            services.AddScoped<MovieService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
