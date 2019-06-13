@@ -10,7 +10,7 @@ Movie List using Components and Server API
 <div>
     <div class="row">
         <div class="col mt-3">
-            <button class="btn btn-primary" onclick=@AddMovie>Add Movie</button>
+            <button class="btn btn-primary" @onclick=@AddMovie>Add Movie</button>
         </div>
     </div>
     <div class="row">
@@ -22,7 +22,7 @@ Movie List using Components and Server API
     </div>
 </div>
 
-@functions {
+@code {
 
     List<Movie> movies = new List<Movie>();
     private bool ShowMovieForm { get; set; } = false;
