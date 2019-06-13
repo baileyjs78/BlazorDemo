@@ -1,7 +1,8 @@
 ﻿@using BlazorDemo.Pages;
+@using Microsoft.AspNetCore.Components
 @foreach (var movie in movies)
 {
-    <div class="col-sm-4">
+    <div class="col-sm-4" @Key="movie.Id">
         <div class="card mt-3">
             <div class="card-body">
                 <h4 class="card-title">@movie.Title</h4>
@@ -9,14 +10,14 @@
                 <p class="card-text">
                     @movie.Description
                 </p>
-                <button class="btn btn-primary" onclick=@(() => OnEditEvent.InvokeAsync(movie.Id))>Edit</button>
-                <button class="btn btn-secondary" onclick=@(() => OnDeleteEvent.InvokeAsync(movie))>Delete</button>
+                <button class="btn btn-primary" @onclick=@(() => OnEditEvent.InvokeAsync(movie.Id))>Edit</button>
+                <button class="btn btn-secondary" @onclick=@(() => OnDeleteEvent.InvokeAsync(movie))>Delete</button>
 
             </div>
         </div>
     </div>
 }
-@functions {
+@code {
     [Parameter]
     private List<Movie> movies { get; set; }
     [Parameter]
