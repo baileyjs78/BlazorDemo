@@ -17,8 +17,8 @@ Movie List
                 <p class="card-text">
                     @movie.Description
                 </p>
-                <button class="btn btn-primary" @onclick=@(() => EditMovie(movie.Id))>Edit</button>
-                <button class="btn btn-secondary" @onclick=@(() => DeleteMovie(movie))>Delete</button>
+                <button class="btn btn-primary" @onclick="(() => EditMovie(movie.Id))">Edit</button>
+                <button class="btn btn-secondary" @onclick="(() => DeleteMovie(movie))">Delete</button>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@ Movie List
                         @(IsNewMovie ? "Add" : "Edit") Movie
                     </h3>
                 </div>
-                <EditForm Model="@movieForm" OnValidSubmit=@SaveMovie>
+                <EditForm Model="@movieForm" OnValidSubmit="@SaveMovie">
                     <DataAnnotationsValidator />
                     <div class="modal-body">
                         <div class="alert alert-danger"><ValidationSummary /></div>
@@ -58,7 +58,7 @@ Movie List
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick=@HideMovieModal>Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@HideMovieModal">Cancel</button>
                     </div>
                 </EditForm>
             </div>
