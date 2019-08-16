@@ -1,6 +1,5 @@
 ﻿@page "/moviedb"
 @using System.ComponentModel.DataAnnotations
-@using Microsoft.AspNetCore.Components.Forms;
 <h1>Movie DB</h1>
 
 
@@ -9,7 +8,7 @@ Movie List
 
 @foreach (var movie in movies)
 {
-    <div class="col-sm-4" @Key="movie.Id">
+    <div class="col-sm-4" @key="movie.Id">
         <div class="card mt-3">
             <div class="card-body">
                 <h4 class="card-title">@movie.Title</h4>
@@ -41,19 +40,19 @@ Movie List
                         <div class="alert alert-danger"><ValidationSummary /></div>
                         <div class="form-group">
                             <label>Title</label>
-                            <InputText @bind-value="movieForm.Title" class="form-control" />
+                            <InputText @bind-Value="movieForm.Title" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label>Year</label>
-                            <InputNumber @bind-value="movieForm.Year" class="form-control" T="int" />
+                            <InputNumber @bind-Value="movieForm.Year" class="form-control" T="int" />
                         </div>
                         <div class="form-group">
                             <label>Director</label>
-                            <InputText @bind-value="movieForm.Director" class="form-control" />
+                            <InputText @bind-Value="movieForm.Director" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <InputTextArea @bind-value="movieForm.Description" class="form-control" />
+                            <InputTextArea @bind-Value="movieForm.Description" class="form-control" />
                         </div>
                     </div>
                     <div class="modal-footer">

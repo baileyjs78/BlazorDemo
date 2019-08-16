@@ -30,7 +30,7 @@ Movie List using Components and Server API
     private bool ShowMovieFormAlert { get; set; } = false;
     private Movie movieForm { get; set; } = new Movie();
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         movies = await Http.GetJsonAsync<List<Movie>>("api/Movies");
     }

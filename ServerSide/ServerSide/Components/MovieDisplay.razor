@@ -19,7 +19,7 @@
 }
 @code {
     [Parameter]
-    private List<Movie> movies { get; set; }
+    public List<Movie> movies { get; set; }
     [Parameter]
     protected EventCallback<Guid> OnEditEvent { get; set; }
     [Parameter]

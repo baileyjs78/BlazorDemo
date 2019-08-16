@@ -29,7 +29,7 @@ Movie List using Components
     private Movie movieForm { get; set; } = new Movie();
 
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         movies = await MovieService.GetMovies();
     }

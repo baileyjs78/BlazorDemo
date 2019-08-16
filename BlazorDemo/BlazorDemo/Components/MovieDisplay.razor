@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Components
 @foreach (var movie in movies)
 {
-    <div class="col-sm-4" @Key="movie.Id">
+    <div class="col-sm-4" @key="movie.Id">
         <div class="card mt-3">
             <div class="card-body">
                 <h4 class="card-title">@movie.Title</h4>
@@ -19,7 +19,7 @@
 }
 @code {
     [Parameter]
-    private List<Movie> movies { get; set; }
+    public List<Movie> movies { get; set; }
     [Parameter]
     protected EventCallback<Guid> OnEditEvent { get; set; }
     [Parameter]
