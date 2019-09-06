@@ -41,11 +41,11 @@
 </div>
 @code {
     [Parameter]
-    private Movie movie { get; set; }
+    public Movie movie { get; set; }
     [Parameter]
-    private bool IsNewMovie { get; set; }
+    public bool IsNewMovie { get; set; }
     [Parameter]
-    protected EventCallback<EditContext> OnSaveEvent { get; set; }
+    public EventCallback<EditContext> OnSaveEvent { get; set; }
     [Parameter]
-    protected EventCallback OnCancelEvent { get; set; }
+    public EventCallback OnCancelEvent { get; set; }
 }

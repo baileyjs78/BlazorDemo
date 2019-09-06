@@ -19,7 +19,7 @@
     [Parameter]
     public List<Movie> movies { get; set; }
     [Parameter]
-    protected EventCallback<Guid> OnEditEvent { get; set; }
+    public EventCallback<Guid> OnEditEvent { get; set; }
     [Parameter]
-    protected EventCallback<Movie> OnDeleteEvent { get; set; }
+    public EventCallback<Movie> OnDeleteEvent { get; set; }
 }
