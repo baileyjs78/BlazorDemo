@@ -15,19 +15,19 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Title</label>
-                            <InputText @bind-Value="movie.Title" class="form-control" />
+                            <InputText @bind-Value="movie.Title" id="Title" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label>Year</label>
-                            <InputNumber @bind-Value="movie.Year" class="form-control" T="int" />
+                            <InputNumber @bind-Value="movie.Year" id="Year" class="form-control" T="int" />
                         </div>
                         <div class="form-group">
                             <label>Director</label>
-                            <InputText @bind-Value="movie.Director" class="form-control" />
+                            <InputText @bind-Value="movie.Director" id="Director" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <InputTextArea @bind-Value="movie.Description" class="form-control" />
+                            <InputTextArea @bind-Value="movie.Description" id="Description" class="form-control" />
                         </div>
                     </div>
                     <div class="modal-footer">
