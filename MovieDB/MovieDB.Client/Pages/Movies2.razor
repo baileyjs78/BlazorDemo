@@ -1,0 +1,32 @@
+﻿@page "/movies2"
+@using MovieDB.Shared
+@using MovieDB.Client.Components
+@using MovieDB.Client.Services
+@inject MovieService MovieSvc
+
+<h1>Movie DB</h1>
+
+
+Movie List using Components and Server API
+<div>
+    <div class="row">
+        <div class="col mt-3">
+            <button class="btn btn-primary" @onclick="MovieSvc.AddMovie">Add Movie</button>
+        </div>
+    </div>
+    <div class="row">
+        <MovieDisplay movies="@MovieSvc.movies" OnEditEvent="@MovieSvc.EditMovie" OnDeleteEvent="@MovieSvc.DeleteMovie" />
+        @if (MovieSvc.ShowMovieForm)
+        {
+            <MovieAddedit movie="@MovieSvc.movieForm" IsNewMovie="@MovieSvc.IsNewMovie" OnSaveEvent="@MovieSvc.SaveMovie" OnCancelEvent="@MovieSvc.HideMovieModal" />
+        }
+    </div>
+</div>
+
+@code {
+
+protected override async Task OnInitializedAsync()
+{
+MovieSvc.InitiateMovieAPI();
+}
+}

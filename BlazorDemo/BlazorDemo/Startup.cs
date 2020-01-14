@@ -1,3 +1,4 @@
+using BlazorDemo.Components;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,6 +8,7 @@ namespace BlazorDemo
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<MovieService, MovieService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

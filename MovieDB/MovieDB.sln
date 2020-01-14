@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDB.Shared", "MovieDB.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Components.Testing", "Microsoft.AspNetCore.Components.Testing\Microsoft.AspNetCore.Components.Testing.csproj", "{23A0DE01-4466-4796-9037-4A0C78ADA525}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDB.Tests", "MovieDB.Tests\MovieDB.Tests.csproj", "{4FA281C3-9503-4849-AE0E-3A3F4B2F45C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDB.Tests", "MovieDB.Tests\MovieDB.Tests.csproj", "{4FA281C3-9503-4849-AE0E-3A3F4B2F45C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
