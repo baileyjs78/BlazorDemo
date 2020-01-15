@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using MovieDB.Shared;
+using MovieDB.Client.Services;
 
 namespace MovieDB.Client.Services
 {
@@ -17,26 +18,33 @@ namespace MovieDB.Client.Services
         public bool ShowMovieFormAlert { get; set; } = false;
         public Movie movieForm { get; set; } = new Movie();
 
+        public string BaseUri;
+
+        public MovieService(string baseUri)
+        {
+            BaseUri = baseUri;
+        }
+
         public async Task InitiateMovieAPI()
         {
             var client = new HttpClient();
-            movies = await client.GetJsonAsync<List<Movie>>("http://localhost:54504/api/Movies");
+            movies = await client.GetJsonAsync<List<Movie>>(BaseUri + "api/Movies");
         }
         
         private async Task UpdateMovieAPI(Movie movie)
         {
             var client = new HttpClient();
-            await client.SendJsonAsync(HttpMethod.Put, "http://localhost:54504/api/Movies/" + movie.Id, movie);
+            await client.SendJsonAsync(HttpMethod.Put, BaseUri + "api/Movies/" + movie.Id, movie);
         }
         private async Task AddMovieAPI(Movie movie)
         {
             var client = new HttpClient();
-            await client.SendJsonAsync(HttpMethod.Post, "http://localhost:54504/api/Movies", movie);
+            await client.SendJsonAsync(HttpMethod.Post, BaseUri + "api/Movies", movie);
         }
         private async Task DeleteMovieAPI(Movie movie)
         {
             var client = new HttpClient();
-            await client.DeleteAsync("http://localhost:54504/api/Movies/" + movie.Id);
+            await client.DeleteAsync(BaseUri + "api/Movies/" + movie.Id);
         }
 
         public async Task AddMovie()
