@@ -1,5 +1,4 @@
 ﻿@page "/movies2"
-@using MovieDB.Shared
 @using MovieDB.Client.Components
 @using MovieDB.Client.Services
 @inject MovieService MovieSvc
@@ -27,6 +26,6 @@ Movie List using Components and Server API
 
 protected override async Task OnInitializedAsync()
 {
-MovieSvc.InitiateMovieAPI();
+    await MovieSvc.InitiateMovieAPI();
 }
 }

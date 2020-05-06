@@ -32,15 +32,15 @@ Movie List using Components and Server API
 
     protected override async Task OnInitializedAsync()
     {
-        movies = await Http.GetJsonAsync<List<Movie>>("api/Movies");
+        movies = await Http.GetFromJsonAsync<List<Movie>>("api/Movies");
     }
     protected async Task UpdateMovieAPI(Movie movie)
     {
-        await Http.SendJsonAsync(HttpMethod.Put, "api/Movies/" + movie.Id, movie);
+        await Http.PutAsJsonAsync("api/Movies/" + movie.Id, movie);
     }
     protected async Task AddMovieAPI(Movie movie)
     {
-        await Http.SendJsonAsync(HttpMethod.Post, "api/Movies", movie);
+        await Http.PostAsJsonAsync("api/Movies", movie);
     }
     protected async Task DeleteMovieAPI(Movie movie)
     {
