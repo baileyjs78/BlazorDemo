@@ -67,6 +67,7 @@ namespace MovieDB.Tests
             Assert.Equal("Year must be from 1920 to 2020", component.Find(".validation-message").InnerText);
         }
 
+        [Fact]
         public void NewMovie_ValidationFailsWhenYearOutofRangeHigh()
         {
             ParameterView paramView = ParameterView.FromDictionary(new Dictionary<string, object>() { { "movie", new Movie() }, { "IsNewMovie", true } });

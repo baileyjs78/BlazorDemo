@@ -45,13 +45,13 @@ namespace MovieDB.Client.Services
             await client.DeleteAsync("api/Movies/" + movie.Id);
         }
 
-        public async Task AddMovie()
+        public void AddMovie()
         {
             movieForm = new Movie();
             IsNewMovie = true;
             ShowMovieModal();
         }
-        public async Task EditMovie(Guid movieId)
+        public void EditMovie(Guid movieId)
         {
             var mymovie = movies.FirstOrDefault(x => x.Id == movieId);
             movieForm = new Movie { Id = mymovie.Id, Title = mymovie.Title, Year = mymovie.Year, Director = mymovie.Director, Description = mymovie.Description };
@@ -87,7 +87,7 @@ namespace MovieDB.Client.Services
             ShowMovieForm = true;
 
         }
-        public async Task HideMovieModal()
+        public void HideMovieModal()
         {
             ShowMovieForm = false;
         }
