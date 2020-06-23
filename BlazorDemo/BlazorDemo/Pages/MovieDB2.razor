@@ -27,25 +27,25 @@ Movie List using Components
     private Movie movieForm { get; set; } = new Movie();
 
 
-    async Task AddMovie()
+    void AddMovie()
     {
         movieForm = new Movie();
         IsNewMovie = true;
         ShowMovieModal();
     }
-    async Task EditMovie(Guid movieId)
+    void EditMovie(Guid movieId)
     {
         var mymovie = movies.FirstOrDefault(x => x.Id == movieId);
         movieForm = new Movie { Id = mymovie.Id, Title = mymovie.Title, Year = mymovie.Year, Director = mymovie.Director, Description = mymovie.Description };
         IsNewMovie = false;
         ShowMovieModal();
     }
-    async Task DeleteMovie(Movie movie)
+    void DeleteMovie(Movie movie)
     {
         movies.Remove(movie);
     }
 
-    async Task SaveMovie()
+    void SaveMovie()
     {
         if (IsNewMovie)
         {
@@ -65,7 +65,7 @@ Movie List using Components
         ShowMovieForm = true;
 
     }
-    async Task HideMovieModal()
+    void HideMovieModal()
     {
         ShowMovieForm = false;
     }

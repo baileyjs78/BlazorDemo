@@ -14,25 +14,25 @@ namespace BlazorDemo.Components
         public Movie movieForm { get; set; } = new Movie();
 
 
-        public async Task AddMovie()
+        public void AddMovie()
         {
             movieForm = new Movie();
             IsNewMovie = true;
             ShowMovieModal();
         }
-        public async Task EditMovie(Guid movieId)
+        public void EditMovie(Guid movieId)
         {
             var mymovie = movies.FirstOrDefault(x => x.Id == movieId);
             movieForm = new Movie { Id = mymovie.Id, Title = mymovie.Title, Year = mymovie.Year, Director = mymovie.Director, Description = mymovie.Description };
             IsNewMovie = false;
             ShowMovieModal();
         }
-        public async Task DeleteMovie(Movie movie)
+        public void DeleteMovie(Movie movie)
         {
             movies.Remove(movie);
         }
 
-        public async Task SaveMovie()
+        public void SaveMovie()
         {
             if (IsNewMovie)
             {
@@ -52,7 +52,7 @@ namespace BlazorDemo.Components
             ShowMovieForm = true;
 
         }
-        public async Task HideMovieModal()
+        public void HideMovieModal()
         {
             ShowMovieForm = false;
         }
