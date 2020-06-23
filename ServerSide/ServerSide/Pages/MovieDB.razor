@@ -34,13 +34,13 @@ Movie List using Components
         movies = await MovieService.GetMovies();
     }
 
-    async Task AddMovie()
+    void AddMovie()
     {
         movieForm = new Movie();
         IsNewMovie = true;
         ShowMovieModal();
     }
-    async Task EditMovie(Guid movieId)
+    void EditMovie(Guid movieId)
     {
         var mymovie = movies.FirstOrDefault(x => x.Id == movieId);
         movieForm = new Movie { Id = mymovie.Id, Title = mymovie.Title, Year = mymovie.Year, Director = mymovie.Director, Description = mymovie.Description };
@@ -75,7 +75,7 @@ Movie List using Components
         ShowMovieForm = true;
 
     }
-    async Task HideMovieModal()
+    void HideMovieModal()
     {
         ShowMovieForm = false;
     }
